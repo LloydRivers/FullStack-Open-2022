@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const app = express();
 app.use(express.json());
@@ -16,7 +17,7 @@ app.use(
 );
 // Morgan logger
 
-const PORT = 3001;
+const PORT = process.env.PORT || 4001;
 let data = require("./data.json");
 
 app.get("/api/persons", (req, res) => {
