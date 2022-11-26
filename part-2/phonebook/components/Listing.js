@@ -5,9 +5,7 @@ const Listing = (props) => {
     props;
 
   const handleDelete = async (id) => {
-    console.log("render");
-
-    const found = persons.find((p) => p.id === id);
+    const found = persons.find((person) => person.id === id);
     if (
       window.confirm(
         `Delete ${persons.find((person) => person.id === id).name}?`

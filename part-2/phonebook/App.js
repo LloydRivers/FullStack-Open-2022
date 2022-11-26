@@ -67,7 +67,7 @@ const App = () => {
         )
       ) {
         try {
-          await personServices.updatePerson(isPresent.id, person);
+          await personServices.updatePerson(isPresent.name, person);
           setReRender(true);
           setNewName("");
           setNewNumber("");
