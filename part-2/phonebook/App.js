@@ -7,7 +7,6 @@ import personServices from "./services/persons";
 import Notification from "./components/Notification";
 
 const App = () => {
-  const API = `http://localhost:3001/persons`;
   // Here I create two Arrays, one will be the main array which wont change and the other will be used for filtering.
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
