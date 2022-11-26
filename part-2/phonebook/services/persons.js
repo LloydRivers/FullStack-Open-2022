@@ -1,5 +1,5 @@
 import axios from "axios";
-const baseURL = "http://localhost:3001/api/persons";
+const baseURL = "https://full-stack-open-2022.vercel.app/api/persons";
 
 const getAllPersons = () => {
   return axios.get(baseURL);
