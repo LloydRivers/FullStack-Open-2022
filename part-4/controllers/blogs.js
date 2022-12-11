@@ -2,7 +2,6 @@ require("dotenv").config();
 const blogsRouter = require("express").Router();
 const Blog = require("../models/blog");
 const { info } = require("../utils/logger");
-const { getTokenFrom } = require("../utils/getToken");
 
 const User = require("../models/user");
 
@@ -66,11 +65,17 @@ blogsRouter.delete("/:id", async (request, response) => {
 });
 
 blogsRouter.put("/:id", async (request, response) => {
-  try {
-    const blog = await Blog.findByIdAndUpdate(request.params.id, request.body, {
-      new: true,
-    });
+  const { likes } = request.body;
 
+  try {
+    const blog = await Blog.findByIdAndUpdate(
+      request.params.id,
+      { likes },
+      {
+        new: true,
+      }
+    );
+    console.log("updatedBlog", blog);
     response.json(blog);
   } catch ({ message }) {
     info();

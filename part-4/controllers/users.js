@@ -25,6 +25,7 @@ userRouter.get("/:id", async (request, response) => {
 });
 
 userRouter.post("/", async (request, response) => {
+  console.log("frontend hit the backend");
   const { username, name, password } = request.body;
   if (username && username.length > 3) {
     const existingUser = await User.findOne({ username });

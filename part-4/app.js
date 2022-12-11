@@ -5,6 +5,7 @@ const cors = require("cors");
 const blogsRouter = require("./controllers/blogs");
 const userRouter = require("./controllers/users");
 const loginRouter = require("./controllers/login");
+const testingRouter = require("./controllers/tests");
 const {
   requestLogger,
   unknownEndpoint,
@@ -34,6 +35,10 @@ app.use(requestLogger);
 app.use("/api/blogs", [tokenExtractor, userExtractor], blogsRouter);
 app.use("/api/users", userRouter);
 app.use("/api/login", loginRouter);
+
+if (process.env.NODE_ENV === "test") {
+  app.use("/api/testing", testingRouter);
+}
 
 app.use(unknownEndpoint);
 app.use(errorHandler);
