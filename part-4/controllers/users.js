@@ -2,7 +2,8 @@ const userRouter = require("express").Router();
 const bcrypt = require("bcrypt");
 const User = require("../models/user");
 const { info } = require("../utils/logger");
-
+{
+}
 userRouter.get("/", async (request, response) => {
   // The second object is for filtering, so as per the screen shot on the full stack open, I filtering out the blogs array.
   const users = await User.find({}).populate("blogs", {

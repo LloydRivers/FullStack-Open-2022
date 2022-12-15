@@ -1,0 +1,54 @@
+{
+  "anecdotes": [
+    {
+      "content": "Start your day with a smile and find quote of the day. Open your eyes and convince yourself that you will win the day. Give yourself a small tap at the back, love yourself a little more, compliment your good traits, and be the person your inner child wants you to be.",
+      "votes": 20,
+      "id": "a9fc9b3f-ae9e-476c-bb29-75cde0170c70"
+    },
+    {
+      "content": "Today will be a great day, expect nothing less. Here are positive that will help you get through the day.",
+      "votes": 7,
+      "id": "2749153d-6718-4d4f-b94c-2fcf014c52b7"
+    },
+    {
+      "content": "Today is your day. Your mountain is waiting so get on your way.- Dr. Seuss",
+      "votes": 8,
+      "id": "ec5536d8-efa6-4b75-98a3-8a602f53e051"
+    },
+    {
+      "content": "Yesterday is not ours to recover, but tomorrow is ours to win or lose. – Lyndon B. Johnson",
+      "votes": 6,
+      "id": "7218224c-93c0-4a1c-85fa-8d496eecea31"
+    },
+    {
+      "content": "When it rains, it pours? but soon, the sun shines again. Stay positive. Better days are on their way.",
+      "votes": 7,
+      "id": "16c68800-a0ef-46e8-80a1-2b08f8ee0421"
+    },
+    {
+      "content": "The 2022 edition has started! Despite the year is soon over you can start now since the course continues at 2023, see this for more details.",
+      "votes": 7,
+      "id": "255d3845-29a8-4020-b5d4-7d758c490814"
+    },
+    {
+      "content": "Just one small positive thought in the morning can change your whole day.",
+      "votes": 0,
+      "id": "1ba42a3d-8f53-4b32-9c07-22659b402763"
+    },
+    {
+      "content": "Also change the creation of a new anecdote to asynchronous actions implemented using the Redux Thunk library.",
+      "votes": 0,
+      "id": "40f6e543-066d-416d-85b5-b564be84cc65"
+    },
+    {
+      "content": "We have used the Redux-store with the help of the React Redux library 's hook app, i.e. the functions useSelector and useDispatch .",
+      "votes": 0,
+      "id": "4e14c3c2-167b-4824-a292-f3b91c895fbd"
+    },
+    {
+      "content": "In new applications, you should definitely use hook-api , but knowing the connect function is useful when maintaining older projects that use Redux.",
+      "votes": 0,
+      "id": "2b249e84-71e1-4ae9-9c2e-9b957fbc1dd1"
+    }
+  ]
+}
