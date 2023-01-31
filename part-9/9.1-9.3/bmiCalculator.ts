@@ -28,6 +28,6 @@ try {
   let errorMessage: string;
   if (error instanceof Error) {
     errorMessage = `Something went wrong: ${error.message}`;
+    console.log(errorMessage);
   }
-  console.log(errorMessage);
 }
