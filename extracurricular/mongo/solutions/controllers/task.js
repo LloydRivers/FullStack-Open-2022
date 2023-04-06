@@ -1,6 +1,8 @@
 // These are my solutions to the questions in exercises.txt
 const Restaurant = require("../models/Restaurant");
 module.exports = {
+  // Write a MongoDB query to display all the documents in the collection restaurants.
+
   taskOne: async (req, res) => {
     try {
       // For large documents we can use the lean() method to return a plain JavaScript object instead of a Mongoose document.

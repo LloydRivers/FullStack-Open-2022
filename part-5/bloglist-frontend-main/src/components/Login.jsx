@@ -27,6 +27,7 @@ const Login = ({
           username,
           password,
         });
+
         window.localStorage.setItem("logged_in_user", JSON.stringify(data));
         setUsername("");
         setPassword("");

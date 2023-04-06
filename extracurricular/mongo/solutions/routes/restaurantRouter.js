@@ -25,3 +25,10 @@ restaurantRouter.get("/task-nine", taskNine);
 restaurantRouter.get("/task-ten", taskTen);
 restaurantRouter.get("/task-eleven", taskEleven);
 module.exports = restaurantRouter;
+
+/*
+get /
+post /
+delete /:id
+patch/put /:id
+*/

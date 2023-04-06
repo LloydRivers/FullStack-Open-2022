@@ -57,9 +57,9 @@ const BlogList = ({ blog, setRender, username }) => {
             Likes: {blog.likes}
             <button className="like-btn" id="like-btn" onClick={increaseLikes}>
               like
-            </button>{" "}
+            </button>
           </div>
-          <div>{blog.user.name}</div>
+          <div>{blog?.user?.name}</div>
           {blog.user.username === username && (
             <button id="delete-btn" onClick={() => removeBlog(blog.id)}>
               delete

@@ -7,6 +7,8 @@ const { info } = require("../utils/logger");
 
 loginRouter.post("/", async (request, response) => {
   const { username, password } = request.body;
+  console.log("username", username);
+  console.log("password", password);
 
   try {
     const user = await User.find({ username });

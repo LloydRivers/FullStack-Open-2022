@@ -1,4 +1,4 @@
-import diaryData from "../../data/diaries";
+import diaryData from "../data/diaries";
 
 import {
   DiaryEntry,
