@@ -1,7 +1,7 @@
 import { useMutation } from "@apollo/client";
-import useForm from "../../utils/Custom_Hooks/UseForm";
+import useForm from "utils/Custom_Hooks/UseForm";
 
-import { CREATE_PERSON, ALL_PERSONS } from "../../Queries/queries";
+import { CREATE_PERSON, ALL_PERSONS } from "Queries/queries";
 
 const PersonForm = ({ setError }) => {
   /*  
@@ -22,7 +22,12 @@ const PersonForm = ({ setError }) => {
     },
   });
 
-  const { values, handleChange, handleSubmit } = useForm(createPerson);
+  const { values, handleChange, handleSubmit } = useForm(createPerson, {
+    name: "",
+    phone: "",
+    street: "",
+    city: "",
+  });
 
   return (
     <div>

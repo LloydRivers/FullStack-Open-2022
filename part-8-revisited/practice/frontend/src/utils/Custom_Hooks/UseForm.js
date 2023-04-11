@@ -1,13 +1,6 @@
 import { useState } from "react";
 
-function useForm(mutation) {
-  // Set up state for the form values and errors
-  const initialValues = {
-    name: "",
-    phone: "",
-    street: "",
-    city: "",
-  };
+function useForm(mutation, initialValues) {
   const [values, setValues] = useState(initialValues);
 
   // Define the function to handle changes to form values

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useQuery } from "@apollo/client";
 
 // Import: Components
-import { Persons, PersonForm, Notify } from "./Components";
+import { Persons, PersonForm, Notify, PhoneForm } from "./Components";
 
 //Import Query
 import { ALL_PERSONS } from "./Queries/queries";
@@ -33,6 +33,7 @@ const App = () => {
       <Persons persons={result.data?.allPersons} />
       {/* Pass the error message down to PersonForm */}
       <PersonForm setError={notify} />
+      <PhoneForm setError={notify} />
     </>
   );
 };

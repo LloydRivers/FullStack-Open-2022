@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useQuery } from "@apollo/client";
 
-import { FIND_PERSON } from "../../Queries/queries";
+import { FIND_PERSON } from "Queries/queries";
 
 // Define a component that renders a person's details
 const Person = ({ person, onClose }) => {
