@@ -5,7 +5,12 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
 // Import ApolloClient, InMemoryCache, and gql from the @apollo/client library
-import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
+import {
+  ApolloClient,
+  InMemoryCache,
+  gql,
+  ApolloProvider,
+} from "@apollo/client";
 
 // Create a new instance of ApolloClient with a URI and cache
 const client = new ApolloClient({
@@ -40,8 +45,11 @@ client.query({ query }).then((response) => {
 // Create a root React element and render the App component inside it
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
+  /* <React.StrictMode> is a development mode only feature that performs additional checks and warnings in your application to help you identify potential issues, such as deprecated features, unsafe lifecycle methods, and potential bugs. */
   <React.StrictMode>
-    <App />
+    <ApolloProvider client={client}>
+      <App />
+    </ApolloProvider>
   </React.StrictMode>
 );
 

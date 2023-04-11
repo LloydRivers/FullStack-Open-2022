@@ -1,5 +1,5 @@
 // Import the data
-const { persons } = require("./data");
+let { persons } = require("./data");
 
 // Import packages
 const { GraphQLError } = require("graphql");
@@ -40,7 +40,7 @@ const resolvers = {
           },
         });
       }
-      const person = { ...args, id: uuidv4() };
+      let person = { ...args, id: uuidv4() };
       persons = persons.concat(person);
       return person;
     },
