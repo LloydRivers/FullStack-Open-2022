@@ -1,12 +1,17 @@
+import { Alert } from "antd";
+
 const Notify = ({ errorMessage }) => {
   if (!errorMessage) {
     return null;
-  } else
+  } else {
     return (
-      <div style={{ color: "red" }}>
-        Error: {errorMessage.invalidMessage}: {errorMessage.invalidArgs}
-      </div>
+      <Alert
+        message={`Error: ${errorMessage.invalidMessage}: ${errorMessage.invalidArgs}`}
+        type="error"
+        showIcon
+      />
     );
+  }
 };
 
 export default Notify;
