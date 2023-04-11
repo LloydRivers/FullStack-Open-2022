@@ -4,7 +4,7 @@ const Notify = ({ errorMessage }) => {
   } else
     return (
       <div style={{ color: "red" }}>
-        Error {errorMessage.invalidMessage}: {errorMessage.invalidArgs}
+        Error: {errorMessage.invalidMessage}: {errorMessage.invalidArgs}
       </div>
     );
 };
