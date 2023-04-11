@@ -1,9 +1,11 @@
+import React from "react";
+
 const Books = (props) => {
   if (!props.show) {
-    return null
+    return null;
   }
 
-  const books = []
+  const books = [];
 
   return (
     <div>
@@ -26,7 +28,7 @@ const Books = (props) => {
         </tbody>
       </table>
     </div>
-  )
-}
+  );
+};
 
-export default Books
+export default Books;
