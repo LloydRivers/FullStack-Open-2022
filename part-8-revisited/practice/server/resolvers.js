@@ -31,7 +31,7 @@ const resolvers = {
     },
   },
   Mutation: {
-    addPerson: (root, args) => {
+    createPerson: (root, args) => {
       if (persons.find((p) => p.name === args.name)) {
         throw new GraphQLError("Name must be unique", {
           extensions: {

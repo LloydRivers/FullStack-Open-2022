@@ -23,13 +23,19 @@ const resolvers = {
       const { author, genre } = args;
       const filteredBooks = filterBooks(books, author, genre);
 
-      return filteredBooks;
+      return filteredBooks.map((book) => ({
+        title: book.title,
+        author: book.author,
+        published: book.published,
+      }));
     },
 
     // Returns all the authors in the authors array, along with their book count
     allAuthors: () => {
       return authors.map((author) => ({
         name: author.name,
+        born: author.born,
+        id: author.id,
         bookCount: books.filter((book) => book.author === author.name).length,
       }));
     },
@@ -54,41 +60,37 @@ const resolvers = {
   },
   Mutation: {
     addBook: (root, args) => {
-      // Find the author
+      // Find the author, handle the logic for adding a new author if not found
       let author = findAuthorByName(args.author);
-      // If author is not found (returns undefined), create a new author object
-      if (!author) {
-        author = {
-          name: args.author,
-          id: uuidv4(),
-          bookCount: 0,
-        };
-        // Push the new author to the authors array
-        authors.push(author);
+
+      // Check if book with same title and author already exists
+      const bookExists = books.find(
+        (b) => b.title === args.title && b.author === author.name
+      );
+      if (bookExists) {
+        throw new GraphQLError("Book already exists for this author", {
+          extensions: {
+            code: "BOOK_ALREADY_EXISTS",
+            invalidArgs: {
+              title: args.title,
+              author: args.author,
+            },
+          },
+        });
       }
 
       // Create a new book object and add it to the books array
       let book = {
         title: args.title,
         published: args.published,
-        author: args.author,
+        author: author.name,
         id: uuidv4(),
         genres: args.genres,
       };
       books.push(book);
 
-      // Create a new object with the updated author's book count
-      const updatedAuthor = {
-        ...author, // Spread the existing author's properties
-        bookCount: author.bookCount + 1, // Add 1 to the book count
-      };
-
-      // Update the authors array with the updated author object
-      authors = authors.map((a) =>
-        a.id === updatedAuthor.id ? updatedAuthor : a
-      );
-
-      // Return the newly created book object
+      // Update bookCount for author
+      author.bookCount++;
       return book;
     },
 

@@ -1,6 +1,9 @@
 // Import data
 let { authors } = require("./data");
 
+// Import required packages
+const { v4: uuidv4 } = require("uuid");
+
 const filterBooks = (books, author, genre) => {
   if (!author && !genre) {
     return books;
@@ -22,7 +25,19 @@ const getArrayLength = (array) => {
 };
 
 const findAuthorByName = (name) => {
-  return authors.find((author) => author.name === name);
+  let author = authors.find((author) => author.name === name);
+
+  if (!author) {
+    author = {
+      name,
+      id: uuidv4(),
+      bookCount: 0,
+    };
+
+    authors.push(author);
+  }
+
+  return author;
 };
 
 module.exports = { filterBooks, getArrayLength, findAuthorByName };

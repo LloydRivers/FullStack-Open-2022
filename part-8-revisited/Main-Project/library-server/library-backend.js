@@ -13,6 +13,10 @@ const resolvers = require("./resolvers");
     const server = new ApolloServer({
       typeDefs,
       resolvers,
+      cors: {
+        origin: "*", // allow requests from all domains
+        credentials: true, // allow sending cookies
+      },
     });
 
     const { url } = await startStandaloneServer(server, {

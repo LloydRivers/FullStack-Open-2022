@@ -1,21 +1,25 @@
-import useForm from "utils/Custom_Hooks/UseForm";
-
+import React, { useState } from "react";
 import { useQuery, useMutation } from "@apollo/client";
-import { ALL_AUTHORS, UPDATE_AUTHOR_BIRTHYEAR } from "Queries/queries";
+import { ALL_AUTHORS, UPDATE_AUTHOR_BIRTHYEAR } from "../queries";
 
 const Authors = ({ show }) => {
-  // Get all the Authors
+  const [name, setName] = useState("");
+  const [born, setBorn] = useState("");
+
   const result = useQuery(ALL_AUTHORS);
 
-  // Update the birth year of an author
-  const [editAuthor] = useMutation(UPDATE_AUTHOR_BIRTHYEAR, {
+  const [updateAuthor] = useMutation(UPDATE_AUTHOR_BIRTHYEAR, {
     refetchQueries: [{ query: ALL_AUTHORS }],
   });
 
-  const { values, handleChange, handleSubmit } = useForm(editAuthor, {
-    name: "",
-    setBornTo: "",
-  });
+  const submit = async (event) => {
+    event.preventDefault();
+
+    await updateAuthor({ variables: { name, setBornTo: Number(born) } });
+
+    setName("");
+    setBorn("");
+  };
 
   if (!show) {
     return null;
@@ -39,7 +43,6 @@ const Authors = ({ show }) => {
           </tr>
         </thead>
         <tbody>
-          {/* Loop over and render the names */}
           {authors.map((a) => (
             <tr key={a.name}>
               <td>{a.name}</td>
@@ -51,12 +54,13 @@ const Authors = ({ show }) => {
       </table>
       <div>
         <h2>Set birth year</h2>
-
-        <h2>Please select an Author</h2>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={submit}>
           <div>
             Name
-            <select value={values.name} name="name" onChange={handleChange}>
+            <select
+              value={name}
+              onChange={({ target }) => setName(target.value)}
+            >
               {authors.map((a) => (
                 <option key={a.name} value={a.name}>
                   {a.name}
@@ -67,14 +71,10 @@ const Authors = ({ show }) => {
           <div>
             Born
             <input
-              required
-              type="number"
-              name="setBornTo"
-              value={values.setBornTo}
-              onChange={handleChange}
+              value={born}
+              onChange={({ target }) => setBorn(target.value)}
             />
           </div>
-
           <button type="submit">Update author</button>
         </form>
       </div>
