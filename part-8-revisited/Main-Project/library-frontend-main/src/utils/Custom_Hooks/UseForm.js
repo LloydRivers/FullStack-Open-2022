@@ -30,7 +30,6 @@ function useForm(mutation, initialValues) {
     setValues(initialValues);
   };
 
-  // Return an object containing the form values, errors, and functions to handle form changes and submission. Note the errors will be used in the Authors.jsx component to display an error
   return {
     values,
     handleChange,
