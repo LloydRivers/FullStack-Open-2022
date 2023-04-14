@@ -9,9 +9,10 @@ const typeDefs = gql`
   }
   type Book {
     title: String!
-    author: String!
     published: Int!
+    author: Author!
     genres: [String!]!
+    id: ID!
   }
   type Query {
     bookCount: Int!

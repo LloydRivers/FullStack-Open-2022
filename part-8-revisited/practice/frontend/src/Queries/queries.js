@@ -5,12 +5,6 @@ Import useQuery: useQuery is a React hook that you can use to fetch data using a
 */
 import { gql } from "@apollo/client";
 
-/* 
- Define the GraphQL query
- Here, we are defining a query called FIND_PERSON using gql template literal syntax.
- The query takes in a variable called $nameToSearch of type String! and returns a Person object.
- The query is structured to call the findPerson query in the typeDefs with the nameToSearch parameter.
-*/
 export const ALL_PERSONS = gql`
   query {
     allPersons {
@@ -21,6 +15,12 @@ export const ALL_PERSONS = gql`
   }
 `;
 
+/* 
+ Define the GraphQL query
+ Here, we are defining a query called FIND_PERSON using gql template literal syntax.
+ The query takes in a variable called $nameToSearch of type String! and returns a Person object.
+ The query is structured to call the findPerson query in the typeDefs with the nameToSearch parameter.
+*/
 export const FIND_PERSON = gql`
   query findPersonByName($nameToSearch: String!) {
     findPerson(name: $nameToSearch) {
