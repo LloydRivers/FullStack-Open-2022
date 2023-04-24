@@ -25,7 +25,6 @@ const App = () => {
   const [errorMessage, setErrorMessage] = useState(null);
   const result = useQuery(ALL_AUTHORS);
   const client = useApolloClient();
-  console.log("error", errorMessage);
   const logout = () => {
     setToken(null);
     localStorage.clear();

@@ -4,61 +4,45 @@ import { ALL_BOOKS } from "../../queries";
 import "../css/books.css";
 
 const Books = (props) => {
-  // The genre state is used to to collect the name of genre via the button click.
+  // The genre state is used to collect the name of genre via the button click.
   const [genre, setGenre] = useState(null);
+
   // The filteredBooks state is used to filter the books based on the genre.
   const [filteredBooks, setFilteredBooks] = useState([]);
+
   // The allTheBooks state is used to store all the books from the database.
   const [allTheBooks, setAllTheBooks] = useState([]);
+
+  const { loading, error, data } = useQuery(ALL_BOOKS);
 
   // useLazyQuery is used to send a request to the server to get the books based on the genre.
   const [getBooks, specificBooks] = useLazyQuery(ALL_BOOKS, {
     variables: { genre },
+    onCompleted: (data) => {
+      setFilteredBooks(data.allBooks);
+    },
   });
 
-  const books = useQuery(ALL_BOOKS);
-  const { loading, error, data } = books;
-
-  const filterByGenre = () => {
-    if (genre) {
-      console.log("genre", genre);
-      console.log(
-        "function call to get books",
-        getBooks({ variables: { genre: genre } })
-      );
-      // We set the filteredBooks state to the data from the server.
-      setFilteredBooks(specificBooks.data?.allBooks);
-    } else {
-      console.log("genre", genre);
+  const filterByGenre = (genre) => {
+    setGenre(genre);
+    if (!genre) {
       // If we don't have a genre, send a request to the server to get all the books.
-      getBooks({ variables: { genre: null } });
-      // We set the filteredBooks state to the data from the server.
-      setFilteredBooks(specificBooks.data?.allBooks);
+      specificBooks({ variables: { genre: null } });
+    } else {
+      // If we do have a genre, use the allTheBooks state to filter the books.
+      setFilteredBooks(
+        allTheBooks.filter((book) => book.genres.includes(genre))
+      );
     }
   };
-
   useEffect(() => {
-    // If we have the data from the database, then we set the allTheBooks and filteredBooks state to the data.
-    // We do this because we want to filter the books based on the genre.
     if (data) {
       setAllTheBooks(data?.allBooks);
       setFilteredBooks(data?.allBooks);
     }
+    // If we have the data from the database, then we set the allTheBooks and filteredBooks state to the data.
+    // We do this because we want to filter the books based on the genre.
   }, [data]);
-
-  // useEffect(() => {
-  //   // If a button is clicked, then we filter the books based on the genre.
-  //   if (genre) {
-  //     setFilteredBooks(
-  //       allTheBooks.filter((book) => {
-  //         return book.genres.includes(genre);
-  //       })
-  //     );
-  //   } else {
-  //     // If the All books button is clicked, then we set the filteredBooks state to all the books.
-  //     setFilteredBooks(allTheBooks);
-  //   }
-  // }, [genre, allTheBooks]);
 
   // The below code gives an array of strings of all the genres
   const genres = data?.allBooks.reduce((acc, book) => {
@@ -113,8 +97,8 @@ const Books = (props) => {
               <button
                 key={genre}
                 onClick={() => {
-                  setGenre(genre);
-                  filterByGenre();
+                  // await setGenre(genre);
+                  filterByGenre(genre);
                 }}
               >
                 {genre}

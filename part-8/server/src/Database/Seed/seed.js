@@ -1,3 +1,7 @@
+const mongoose = require("mongoose");
+const Author = require("../../Models/Author");
+const Book = require("../../Models/Book");
+
 let authors = [
   {
     name: "Robert Martin",
@@ -76,7 +80,27 @@ let books = [
   },
 ];
 
-1. Get the logged in user
-2. Make a DB lookup to get all the books.
-3. Filter by the fav genre. 
-4. Map
+const insertData = async () => {
+  try {
+    console.log("Clearing database...");
+    await Author.deleteMany({});
+    await Book.deleteMany({});
+    console.log("Seeding data...");
+    const insertedAuthors = await Author.insertMany(authors);
+
+    // Associate books with their corresponding authors
+    const booksWithAuthors = books.map((book) => {
+      const author = insertedAuthors.find(
+        (author) => author.name === book.author
+      );
+      return { ...book, author: author._id };
+    });
+
+    await Book.insertMany(booksWithAuthors);
+    console.log("Data seeded.");
+  } catch (err) {
+    console.error("Error seeding data:", err);
+  }
+};
+
+module.exports = { insertData };
