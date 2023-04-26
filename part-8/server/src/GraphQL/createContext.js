@@ -1,20 +1,42 @@
+// const jwt = require("jsonwebtoken");
+// const User = require("../Models/User");
+// async function createContext({ req }) {
+//   const auth = req ? req.headers.authorization : null;
+//   if (auth && auth.startsWith("Bearer ")) {
+//     const decodedToken = jwt.verify(auth.substring(7), process.env.JWT_SECRET);
+//     const currentUser = await User.findById(decodedToken.id);
+
+//     return { currentUser };
+//   }
+// }
+// console.log("After createContext");
+// module.exports = { createContext };
+
 const jwt = require("jsonwebtoken");
 const User = require("../Models/User");
-console.log("Before createContext");
-async function createContext({ req }) {
-  console.log("createContext: req.headers", req.headers);
-  console.log("-----------");
 
-  const auth = req ? req.headers.authorization : null;
-  console.log("createContext: auth", auth);
-  if (auth && auth.startsWith("Bearer ")) {
-    const decodedToken = jwt.verify(auth.substring(7), process.env.JWT_SECRET);
-    const currentUser = await User.findById(decodedToken.id);
-
-    console.log("createContext: currentUser", currentUser);
-
-    return { currentUser };
+async function createContext({ req, connection }) {
+  console.log("-----------------connection");
+  console.log("connection.context: ", connection);
+  if (connection) {
+    // This is a subscription request
+    console.log("Subscription context: ", connection.context);
+    return connection.context;
+  } else {
+    // This is a regular request
+    console.log("no connection");
+    const auth = req ? req.headers.authorization : null;
+    if (auth && auth.startsWith("Bearer ")) {
+      const decodedToken = jwt.verify(
+        auth.substring(7),
+        process.env.JWT_SECRET
+      );
+      const currentUser = await User.findById(decodedToken.id);
+      return { currentUser };
+    }
   }
 }
+
 console.log("After createContext");
+
 module.exports = { createContext };

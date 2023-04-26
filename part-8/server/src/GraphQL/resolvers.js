@@ -1,5 +1,8 @@
 /* In GraphQL, a resolver is a function that resolves a field in a query or mutation. It is responsible for returning the data for that field, by fetching it from a data source such as a database or an external API. Resolvers are defined on the server and are associated with a specific field in the schema. When a client makes a request to the server, the resolver is called to retrieve the data for the requested field and return it to the client. */
 
+const { PubSub } = require("graphql-subscriptions");
+const pubsub = new PubSub();
+
 const { AuthenticationError, UserInputError } = require("apollo-server");
 
 require("dotenv").config();
@@ -22,7 +25,6 @@ const resolvers = {
     allBooks: async (root, args) => {
       if (args.author) {
         const foundAuthor = await find_One(Author, "name", args.author);
-        console.log("foundAuthor", foundAuthor);
 
         if (foundAuthor) {
           if (args.genre) {
@@ -37,7 +39,6 @@ const resolvers = {
       }
 
       if (args.genre) {
-        console.log("args.genre", args.genre);
         return Book.find({ genres: { $in: [args.genre] } }).populate("author");
       }
 
@@ -67,24 +68,24 @@ const resolvers = {
       }
 
       const authorExists = await find_One(Author, "name", author);
-      console.log(
-        "Come back and check this later when we are debugging: authorExists",
-        authorExists
-      );
-      /* If the author does not exist, create and save the author to the database */
-      console.log(authorExists);
+
       if (!authorExists) {
         const newAuthor = new Author({ name: author });
         try {
-          await newAuthor.save();
-          if (newAuthor) {
+          const savedAuthor = await newAuthor.save();
+          if (savedAuthor) {
             const book = new Book({
               title,
               published,
-              author: newAuthor._id,
+              author: savedAuthor._id,
               genres,
             });
             await book.save();
+            // I think this line is where the bug is. When we pass the "book" it is the book right above this line which does not contain any author information.
+            pubsub.publish("BOOK_ADDED", {
+              bookAdded: { ...book.toObject(), author: authorExists },
+            });
+
             return book;
           }
         } catch ({ message }) {
@@ -100,7 +101,13 @@ const resolvers = {
           genres,
         });
         try {
+          // We save the new book to the database
           await book.save();
+          // We publish the new book to the subscription
+          pubsub.publish("BOOK_ADDED", {
+            bookAdded: { ...book.toObject(), author: savedAuthor },
+          });
+
           return book;
         } catch ({ message }) {
           throw new UserInputError(message, {
@@ -111,8 +118,6 @@ const resolvers = {
     },
 
     editAuthor: async (root, args, context) => {
-      console.log("args", args);
-      console.log("context", context);
       const { currentUser } = context;
       if (!currentUser) {
         throw new AuthenticationError("not authenticated");
@@ -143,7 +148,6 @@ const resolvers = {
     },
     login: async (root, args) => {
       const user = await find_One(User, "username", args.username);
-      console.log("user", user);
       if (!user || args.password !== "secret") {
         throw new UserInputError("wrong credentials");
       }
@@ -152,6 +156,17 @@ const resolvers = {
         id: user._id,
       };
       return { value: jwt.sign(userForToken, process.env.JWT_SECRET) };
+    },
+  },
+  Subscription: {
+    bookAdded: {
+      subscribe: async () => await pubsub.asyncIterator(["BOOK_ADDED"]),
+      resolve: (payload) => {
+        console.log("We are in the resolve function");
+        console.log("payload:", payload);
+        console.log("Book added:", payload.bookAdded);
+        return payload.bookAdded;
+      },
     },
   },
 };

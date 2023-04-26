@@ -17,9 +17,24 @@ import {
   Recommend,
 } from "./components";
 
-import { ALL_AUTHORS, ALL_BOOKS, CREATE_BOOK, EDIT_AUTHOR } from "./queries";
+import {
+  ALL_AUTHORS,
+  ALL_BOOKS,
+  CREATE_BOOK,
+  EDIT_AUTHOR,
+  BOOK_ADDED,
+} from "./queries";
 
 const App = () => {
+  const { data, loading, error } = useSubscription(BOOK_ADDED);
+  console.log("useSubscription(BOOK_ADDED)", useSubscription(BOOK_ADDED));
+  if (data) {
+    console.log(data);
+    window.alert(
+      `New book added: ${data.bookAdded.title} by ${data.bookAdded.author.name}`
+    );
+  }
+
   const [page, setPage] = useState("authors");
   const [token, setToken] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
