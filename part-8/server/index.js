@@ -20,11 +20,13 @@ const { makeExecutableSchema } = require("@graphql-tools/schema");
 const express = require("express");
 const cors = require("cors");
 const http = require("http");
+const { insertData } = require("./src/Database/Seed/seed");
 
 async function startServer() {
   try {
     // Connect to Database
     await connectToDatabase();
+    // await insertData();
 
     const app = express();
     const httpServer = http.createServer(app);

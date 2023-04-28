@@ -26,20 +26,33 @@ import {
 } from "./queries";
 
 const App = () => {
-  const { data, loading, error } = useSubscription(BOOK_ADDED);
-  console.log("useSubscription(BOOK_ADDED)", useSubscription(BOOK_ADDED));
-  if (data) {
-    console.log(data);
-    window.alert(
-      `New book added: ${data.bookAdded.title} by ${data.bookAdded.author.name}`
-    );
-  }
+  const client = useApolloClient();
+  // const { data, loading, error } = useSubscription(BOOK_ADDED, {});
+
+  // if (data) {
+  //   console.log("from the App.js", data);
+  //   window.alert(
+  //     `New book added: ${data.bookAdded.title} by ${data.bookAdded.author.name}`
+  //   );
+  // }
+
+  useSubscription(BOOK_ADDED, {
+    onData: ({ data, client }) => {
+      console.log(data.data.bookAdded);
+      console.log("subscription", JSON.stringify(data));
+      alert(
+        `New book added: ${data.data.bookAdded.title} by ${data.data.bookAdded.author.name}`
+      );
+      //const addedBook = data.data.bookAdded;
+      // updateCache(client.cache, { query: ALL_BOOKS }, data.addedBook);
+    },
+  });
 
   const [page, setPage] = useState("authors");
   const [token, setToken] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
   const result = useQuery(ALL_AUTHORS);
-  const client = useApolloClient();
+
   const logout = () => {
     setToken(null);
     localStorage.clear();

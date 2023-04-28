@@ -1,9 +1,11 @@
 /* In GraphQL, a resolver is a function that resolves a field in a query or mutation. It is responsible for returning the data for that field, by fetching it from a data source such as a database or an external API. Resolvers are defined on the server and are associated with a specific field in the schema. When a client makes a request to the server, the resolver is called to retrieve the data for the requested field and return it to the client. */
 
 const { PubSub } = require("graphql-subscriptions");
-const pubsub = new PubSub();
+const pubSub = new PubSub();
 
 const { AuthenticationError, UserInputError } = require("apollo-server");
+
+const { GraphQLError } = require("graphql");
 
 require("dotenv").config();
 
@@ -77,13 +79,13 @@ const resolvers = {
             const book = new Book({
               title,
               published,
-              author: savedAuthor._id,
+              author: savedAuthor,
               genres,
             });
             await book.save();
             // I think this line is where the bug is. When we pass the "book" it is the book right above this line which does not contain any author information.
-            pubsub.publish("BOOK_ADDED", {
-              bookAdded: { ...book.toObject(), author: authorExists },
+            pubSub.publish("BOOK_ADDED", {
+              bookAdded: book,
             });
 
             return book;
@@ -97,15 +99,15 @@ const resolvers = {
         const book = new Book({
           title,
           published,
-          author: authorExists._id,
+          author: authorExists,
           genres,
         });
         try {
           // We save the new book to the database
           await book.save();
           // We publish the new book to the subscription
-          pubsub.publish("BOOK_ADDED", {
-            bookAdded: { ...book.toObject(), author: savedAuthor },
+          pubSub.publish("BOOK_ADDED", {
+            bookAdded: { bookAdded: book },
           });
 
           return book;
@@ -160,7 +162,7 @@ const resolvers = {
   },
   Subscription: {
     bookAdded: {
-      subscribe: async () => await pubsub.asyncIterator(["BOOK_ADDED"]),
+      subscribe: async () => await pubSub.asyncIterator(["BOOK_ADDED"]),
       resolve: (payload) => {
         console.log("We are in the resolve function");
         console.log("payload:", payload);
