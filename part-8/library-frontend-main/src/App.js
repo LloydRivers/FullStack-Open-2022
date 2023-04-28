@@ -25,7 +25,7 @@ import {
   BOOK_ADDED,
 } from "./queries";
 
-export const updateCache = (cache, query, bookAdded) => {
+export const updateCache = async (cache, query, bookAdded) => {
   const uniqByName = (a) => {
     let seen = new Set();
     return a.filter((item) => {
@@ -39,14 +39,10 @@ export const updateCache = (cache, query, bookAdded) => {
       allBooks: uniqByName(allBooks?.concat(bookAdded)),
     };
   });
-
-  console.log("client.cache:", cache);
-  console.log("this should be the client: on second render");
 };
 
 const App = () => {
   const client = useApolloClient();
-  console.log("this should be the cache: on first render", client.cache);
 
   useSubscription(BOOK_ADDED, {
     onData: async ({ data }) => {
