@@ -25,7 +25,17 @@ import {
   BOOK_ADDED,
 } from "./queries";
 
+/**
+ * This function updates a cache object by modifying its 'allBooks' property.
+ *
+ * @param {object} cache - The cache object to update.
+ * @param {object} query - The query object to use when updating the cache.
+ * @param {object} bookAdded - The book object to add to the cache.
+ *
+ * @returns {Promise} - A promise that resolves to the updated cache object.
+ */
 export const updateCache = async (cache, query, bookAdded) => {
+  // This function removes duplicates from an array of objects based on the 'name' property.
   const uniqByName = (a) => {
     let seen = new Set();
     return a.filter((item) => {
@@ -34,6 +44,8 @@ export const updateCache = async (cache, query, bookAdded) => {
     });
   };
 
+  // This block of code updates the cache object's 'allBooks' property by concatenating
+  // the current value with the new bookAdded object and then removing duplicates.
   cache.updateQuery(query, ({ allBooks }) => {
     return {
       allBooks: uniqByName(allBooks?.concat(bookAdded)),
