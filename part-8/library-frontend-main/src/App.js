@@ -25,26 +25,40 @@ import {
   BOOK_ADDED,
 } from "./queries";
 
+export const updateCache = (cache, query, bookAdded) => {
+  const uniqByName = (a) => {
+    let seen = new Set();
+    return a.filter((item) => {
+      let k = item.name;
+      return seen.has(k) ? false : seen.add(k);
+    });
+  };
+
+  cache.updateQuery(query, ({ allBooks }) => {
+    return {
+      allBooks: uniqByName(allBooks?.concat(bookAdded)),
+    };
+  });
+
+  console.log("client.cache:", cache);
+  console.log("this should be the client: on second render");
+};
+
 const App = () => {
   const client = useApolloClient();
-  // const { data, loading, error } = useSubscription(BOOK_ADDED, {});
-
-  // if (data) {
-  //   console.log("from the App.js", data);
-  //   window.alert(
-  //     `New book added: ${data.bookAdded.title} by ${data.bookAdded.author.name}`
-  //   );
-  // }
+  console.log("this should be the cache: on first render", client.cache);
 
   useSubscription(BOOK_ADDED, {
-    onData: ({ data, client }) => {
-      console.log(data.data.bookAdded);
-      console.log("subscription", JSON.stringify(data));
+    onData: async ({ data }) => {
       alert(
         `New book added: ${data.data.bookAdded.title} by ${data.data.bookAdded.author.name}`
       );
-      //const addedBook = data.data.bookAdded;
-      // updateCache(client.cache, { query: ALL_BOOKS }, data.addedBook);
+      console.log("The data object:", data);
+      await updateCache(
+        client.cache,
+        { query: ALL_BOOKS },
+        data.data.bookAdded
+      );
     },
   });
 
@@ -92,7 +106,12 @@ const App = () => {
       <Authors show={page === "authors"} />
       <Books show={page === "books"} />
       <Recommend show={page === "recommend"} />
-      <NewBook show={page === "add"} token={token} setError={setErrorMessage} />
+      <NewBook
+        show={page === "add"}
+        token={token}
+        setError={setErrorMessage}
+        setPage={setPage}
+      />
     </div>
   );
 };

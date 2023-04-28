@@ -26,6 +26,7 @@ const NewBook = (props) => {
       await createBook({
         variables: { title, author, published: Number(published), genres },
       });
+      props.setPage("books");
     } catch ({ graphQLErrors, networkError, message }) {
       if (graphQLErrors) {
         setError(graphQLErrors[0].message);
