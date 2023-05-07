@@ -1,6 +1,6 @@
 import { calculateBmi } from "./bmiCalculator";
 
-export const parseArgument = (args: Array<string>): String => {
+export const parseArgument = (args: string[]): String => {
   if (args.length < 4) throw new Error("Not enough arguments");
   if (args.length > 4) throw new Error("Too many arguments");
 

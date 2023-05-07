@@ -7,6 +7,7 @@
     "ts-node": "ts-node",
     "calculateBmi": "ts-node bmiCalculator.ts",
     "bmiCalculator_revisited": "ts-node ./bmi_revisited/bmiCalculator_revisited.ts",
+    "exerciseCalculator_revisited": "ts-node ./exerciseCalculator_revisited/exerciseCalculator_revisited.ts",
     "calculateExercises": "ts-node exerciseCalculator.ts",
     "calculateExercise": "ts-node exerciseCalculatorCMD.ts",
     "start": "ts-node index.ts",
