@@ -1,44 +1,36 @@
-const { ApolloServer } = require('@apollo/server');
-const { startStandaloneServer } = require('@apollo/server/standalone');
-const { addMocksToSchema } = require('@graphql-tools/mock');
-const { makeExecutableSchema } = require('@graphql-tools/schema');
+// Import necessary dependencies
+const { ApolloServer } = require("@apollo/server");
+const { startStandaloneServer } = require("@apollo/server/standalone");
+const typeDefs = require("./schema"); // Import the schema definition
+const resolvers = require("./resolvers"); // Import the resolver functions
+const TrackAPI = require("./datasources/track-api"); // Import the TrackAPI data source
 
-const typeDefs = require('./schema');
+// Define an async function to start the Apollo Server
+async function startApolloServer() {
+  // Create a new Apollo Server instance with the schema and resolvers
+  const server = new ApolloServer({ typeDefs, resolvers });
 
-const mocks = {
-  Query: () => ({
-    tracksForHome: () => [...new Array(6)],
-  }),
-  Track: () => ({
-    id: () => 'track_01',
-    title: () => 'Astro Kitty, Space Explorer',
-    author: () => {
+  // Start the server and get the URL
+  const { url } = await startStandaloneServer(server, {
+    // Set up the context function to return the data sources
+    context: async () => {
+      const { cache } = server; // Get the cache from the server instance
+
+      // Return the data sources object with the TrackAPI instance
       return {
-        name: 'Grumpy Cat',
-        photo:
-          'https://res.cloudinary.com/dety84pbu/image/upload/v1606816219/kitty-veyron-sm_mctf3c.jpg',
+        dataSources: {
+          trackAPI: new TrackAPI({ cache }),
+        },
       };
     },
-    thumbnail: () =>
-      'https://res.cloudinary.com/dety84pbu/image/upload/v1598465568/nebula_cat_djkt9r.jpg',
-    length: () => 1210,
-    modulesCount: () => 6,
-  }),
-};
-
-async function startApolloServer() {
-  const server = new ApolloServer({
-    schema: addMocksToSchema({
-      schema: makeExecutableSchema({ typeDefs }),
-      mocks,
-    }),
   });
-  const { url } = await startStandaloneServer(server);
 
+  // Log the URL where the server is running
   console.log(`
-      🚀  Server is running
-      📭  Query at ${url}
-    `);
+    🚀  Server is running
+    📭  Query at ${url}
+  `);
 }
 
+// Call the startApolloServer function to start the server
 startApolloServer();
