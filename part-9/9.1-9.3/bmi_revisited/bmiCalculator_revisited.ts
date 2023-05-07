@@ -49,7 +49,8 @@ export const calculateBmi = (height: number, weight: number): string => {
 // Call the calculateBmi function with height = 180 cm and weight = 74 kg.
 // If the function returns a string, convert it to uppercase using the toUpperCase() method.
 // If the function returns undefined (i.e. an error occurs), log the string "Error calculating BMI" instead using the nullish coalescing operator (??).
-console.log(calculateBmi(180, 74)?.toUpperCase() ?? "Error calculating BMI");
+// console.log(calculateBmi(180, 74)?.toUpperCase() ?? "Error calculating BMI");
+console.log(calculateBmi(180, -74)); // This will throw an error
 
 /* FYI 
 The nullish coalescing (??) operator is a logical operator that returns its right-hand side operand when its left-hand side operand is null or undefined, and otherwise returns its left-hand side operand.
