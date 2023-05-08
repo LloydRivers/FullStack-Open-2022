@@ -56,7 +56,6 @@ export const calculateExercises = (
     average,
     success,
     rating,
-    // THIS IS AN ARRAY OF STRINGS
     rating_description: rating_description_random,
   };
 };
@@ -69,7 +68,6 @@ try {
     average,
     success,
     rating,
-    // THIS IS AN ARRAY OF STRINGS
     rating_description,
   } = calculateExercises(daily_exercises, 2);
   console.log(
