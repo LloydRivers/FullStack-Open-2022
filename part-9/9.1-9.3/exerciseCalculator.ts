@@ -1,3 +1,5 @@
+import { parseArguments } from "./exerciseCalculatorCMD";
+
 interface Result {
   number_of_days: number;
   training_days: number;
@@ -8,10 +10,8 @@ interface Result {
   rating_description: string;
 }
 
-const daily_exercises = [3, 0, 2, 4.5, 0, 3, 1];
-
-export const calculateExercises = (
-  daily_exercises: Array<number>,
+const calculateExercises = (
+  daily_exercises: number[],
   target: number
 ): Result => {
   const number_of_days = daily_exercises.length;
@@ -40,24 +40,28 @@ export const calculateExercises = (
 };
 
 try {
+  const { daily_exercises, target } = parseArguments(process.argv);
   const {
     number_of_days,
     training_days,
-    target,
+    target: targetValue,
     average,
     success,
     rating,
     rating_description,
-  } = calculateExercises(daily_exercises, 2);
+  } = calculateExercises(daily_exercises, target);
+
   console.log(
     `Number of days: ${number_of_days}
 Training days: ${training_days}
-Target: ${target}
+Target: ${targetValue}
 Average: ${average}
 Success: ${success}
 Rating: ${rating}
 Rating description: ${rating_description}`
   );
 } catch (error: unknown) {
-  throw new Error("Something went wrong, error message: " + error);
+  if (error instanceof Error) {
+    console.log("Error:", error.message);
+  }
 }

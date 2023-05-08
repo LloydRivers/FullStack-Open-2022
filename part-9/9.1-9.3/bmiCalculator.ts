@@ -1,5 +1,7 @@
+import { parseArguments } from "./bmiCalculatorCMD";
 export const calculateBmi = (height: number, weight: number): string => {
   const bmi = weight / (height / 100) ** 2;
+
   switch (true) {
     case bmi < 15:
       return "Very severely underweight";
@@ -23,11 +25,10 @@ export const calculateBmi = (height: number, weight: number): string => {
 };
 
 try {
-  console.log(calculateBmi(180, 74));
+  const { height, weight } = parseArguments(process.argv);
+  console.log(calculateBmi(height, weight));
 } catch (error: unknown) {
-  let errorMessage: string;
   if (error instanceof Error) {
-    errorMessage = `Something went wrong: ${error.message}`;
-    console.log(errorMessage);
+    console.log(`Error: ${error.message}`);
   }
 }

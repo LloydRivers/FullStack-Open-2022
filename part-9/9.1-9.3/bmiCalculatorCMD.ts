@@ -1,14 +1,14 @@
-import { calculateBmi } from "./bmiCalculator";
-
-export const parseArgument = (args: string[]): String => {
+export const parseArguments = (
+  args: string[]
+): { height: number; weight: number } => {
   if (args.length < 4) throw new Error("Not enough arguments");
   if (args.length > 4) throw new Error("Too many arguments");
 
-  if (!isNaN(Number(args[2])) && !isNaN(Number(args[3]))) {
-    return calculateBmi(Number(args[2]), Number(args[3]));
-  } else {
-    throw new Error("Provided values were not numbers!");
-  }
-};
+  const height = Number(args[2]);
+  const weight = Number(args[3]);
 
-console.log(parseArgument(process.argv));
+  if (isNaN(height) || isNaN(weight))
+    throw new Error("Invalid arguments: height and weight must be numbers");
+
+  return { height, weight };
+};
