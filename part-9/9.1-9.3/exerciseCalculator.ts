@@ -10,7 +10,7 @@ interface Result {
   rating_description: string;
 }
 
-const calculateExercises = (
+export const calculateExercises = (
   daily_exercises: number[],
   target: number
 ): Result => {
@@ -62,6 +62,7 @@ Rating description: ${rating_description}`
   );
 } catch (error: unknown) {
   if (error instanceof Error) {
+    // THIS IS WHERE THE LOGD ARE COMING FROM
     console.log("Error:", error.message);
   }
 }
