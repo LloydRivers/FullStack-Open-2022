@@ -38,8 +38,8 @@ const addDiary = (entry: NewDiaryEntry): DiaryEntry => {
     };
     diaries.push(newDiaryEntry);
     return newDiaryEntry;
-  } catch ({ message }) {
-    throw new Error(`Error: ${message}`);
+  } catch (error: unknown) {
+    throw new Error(`Error: ${error}`);
   }
 };
 

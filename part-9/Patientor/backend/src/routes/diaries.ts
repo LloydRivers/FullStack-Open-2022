@@ -1,44 +1,39 @@
 import express from "express";
-import diaryService from "../services/diaryService";
-import { toNewDiaryEntry } from "../utils/utils";
+import {
+  getPatientByID,
+  getNonSensitiveEntries,
+  addPatient,
+} from "../services/patientService";
+import { toNewPatientEntry } from "../utils/patientUtils";
+import errorHandler from "./helpers";
 
-const router = express.Router();
+const patientRouter = express.Router();
 
-router.get("/", (_req, res) => {
-  try {
-    res.send(diaryService.getNonSensitiveEntries());
-  } catch ({ message }) {
-    res.status(400).send({
-      status: `error`,
-      message: message,
-    });
-  }
+patientRouter.get("/", (_req, res) => {
+  res.send(getNonSensitiveEntries());
 });
 
-router.get("/:id", (_req, res) => {
+patientRouter.post("/", (req, res) => {
   try {
-    const id = Number(_req.params.id);
-    const diary = diaryService.findById(id);
-    res.send(diary);
-  } catch ({ message }) {
-    res.status(400).send({
-      status: `error`,
-      message: message,
-    });
-  }
-});
-
-router.post("/", (_req, res) => {
-  try {
-    const newDiaryEntry = toNewDiaryEntry(_req.body);
-    const addedEntry = diaryService.addDiary(newDiaryEntry);
+    const newPatientEntry = toNewPatientEntry(req.body);
+    const addedEntry = addPatient(newPatientEntry);
     res.json(addedEntry);
-  } catch ({ message }) {
-    res.status(400).send({
-      status: `error`,
-      message: message,
-    });
+  } catch (error: unknown) {
+    errorHandler(res, error);
   }
 });
 
-export default router;
+patientRouter.get("/:id", (_req, res) => {
+  try {
+    const patient = getPatientByID(_req.params.id);
+    if (patient) {
+      res.json(patient);
+    } else {
+      res.status(404).end();
+    }
+  } catch (error: unknown) {
+    errorHandler(res, error);
+  }
+});
+
+export default patientRouter;

@@ -1,28 +1,30 @@
 import express from "express";
-import patientService from "../services/patientService";
+import {
+  getPatientByID,
+  getNonSensitiveEntries,
+  addPatient,
+} from "../services/patientService";
 import { toNewPatientEntry } from "../utils/patientUtils";
+import errorHandler from "./helpers";
 
 const patientRouter = express.Router();
 
 patientRouter.get("/", (_req, res) => {
-  res.send(patientService.getNonSensitiveEntries());
+  res.send(getNonSensitiveEntries());
 });
 
-patientRouter.post("/", (_req, res) => {
+patientRouter.post("/", (req, res) => {
   try {
-    const newPatientEntry = toNewPatientEntry(_req.body);
-    const addedEntry = patientService.addPatient(newPatientEntry);
+    const newPatientEntry = toNewPatientEntry(req.body);
+    const addedEntry = addPatient(newPatientEntry);
     res.json(addedEntry);
-  } catch ({ message }) {
-    res.status(400).send({
-      status: `error`,
-      message: message,
-    });
+  } catch (error: unknown) {
+    errorHandler(res, error);
   }
 });
 
 patientRouter.get("/:id", (_req, res) => {
-  const patient = patientService.getPatientByID(_req.params.id);
+  const patient = getPatientByID(_req.params.id);
   if (patient) {
     res.json(patient);
   } else {

@@ -1,49 +1,6 @@
 import { Patient, Gender } from "../../types/Patientor/types";
 import { toNewPatientEntry } from "../utils/patientUtils";
 
-// const data = [
-//   {
-//     id: "d2773336-f723-11e9-8f0b-362b9e155667",
-//     name: "John McClane",
-//     dateOfBirth: "1986-07-09",
-//     ssn: "090786-122X",
-//     gender: "male",
-//     occupation: "New york city cop",
-//   },
-//   {
-//     id: "d2773598-f723-11e9-8f0b-362b9e155667",
-//     name: "Martin Riggs",
-//     dateOfBirth: "1979-01-30",
-//     ssn: "300179-77A",
-//     gender: "male",
-//     occupation: "Cop",
-//   },
-//   {
-//     id: "d27736ec-f723-11e9-8f0b-362b9e155667",
-//     name: "Hans Gruber",
-//     dateOfBirth: "1970-04-25",
-//     ssn: "250470-555L",
-//     gender: "male",
-//     occupation: "Technician",
-//   },
-//   {
-//     id: "d2773822-f723-11e9-8f0b-362b9e155667",
-//     name: "Dana Scully",
-//     dateOfBirth: "1974-01-05",
-//     ssn: "050174-432N",
-//     gender: "female",
-//     occupation: "Forensic Pathologist",
-//   },
-//   {
-//     id: "d2773c6e-f723-11e9-8f0b-362b9e155667",
-//     name: "Matti Luukkainen",
-//     dateOfBirth: "1971-04-09",
-//     ssn: "090471-8890",
-//     gender: "male",
-//     occupation: "Digital evangelist",
-//   },
-// ];
-
 const data = [
   {
     id: "d2773336-f723-11e9-8f0b-362b9e155667",
@@ -155,10 +112,22 @@ const data = [
     ],
   },
 ];
+// Create an array of Patient objects by mapping through an array of input objects
 const patientEntries: Patient[] = data.map((obj) => {
+  // Convert the current input object to a new Patient object using the toNewPatientEntry function
   const object = toNewPatientEntry(obj) as Patient;
+  // Set the 'id' property of the new Patient object to the 'id' property of the current input object
   object.id = obj.id;
+  // Return the new Patient object
   return object;
 });
 
+// Export the array of Patient objects as the default export of this module
 export default patientEntries;
+
+/* Notes on the "as" keyworkd: 
+In TypeScript, the as keyword is used to assert the type of an expression to a more specific type. 
+
+In the code: const object = toNewPatientEntry(obj) as Patient; 
+it is used to assert that the result of calling toNewPatientEntry(obj) is of type Patient. This is because the return type of toNewPatientEntry might not be strictly of type Patient, but rather a more general type that is a superset of Patient. By using as Patient, the code asserts that the resulting object is a Patient object. If the object does not conform to the Patient interface, TypeScript will raise a type error.
+*/

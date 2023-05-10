@@ -6,12 +6,12 @@ import {
 } from "../../types/Patientor/types";
 import { v1 as uuid } from "uuid";
 /** I think this function is unused */
-const getEntries = (): Array<Patient> => {
+export const getEntries = (): Array<Patient> => {
   return patients;
 };
 /** I think this function is unused */
 
-const getPatientByID = (id: string): Patient | undefined => {
+export const getPatientByID = (id: string): Patient | undefined => {
   const found = patients.find((patient) => patient.id === id);
 
   if (found) {
@@ -21,7 +21,7 @@ const getPatientByID = (id: string): Patient | undefined => {
   }
 };
 
-const getNonSensitiveEntries = (): NonSensitivePatient[] => {
+export const getNonSensitiveEntries = (): NonSensitivePatient[] => {
   return patients.map((patient) => ({
     id: patient.id,
     name: patient.name,
@@ -32,16 +32,9 @@ const getNonSensitiveEntries = (): NonSensitivePatient[] => {
   }));
 };
 
-const addPatient = (entry: NewPatientEntry): Patient => {
+export const addPatient = (entry: NewPatientEntry): Patient => {
   const id: string = uuid();
   const newPatientEntry = { id, ...entry };
   patients.push(newPatientEntry);
   return newPatientEntry;
-};
-
-export default {
-  getEntries,
-  getNonSensitiveEntries,
-  addPatient,
-  getPatientByID,
 };
