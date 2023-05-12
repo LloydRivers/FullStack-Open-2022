@@ -11,7 +11,7 @@ import MaleIcon from "@mui/icons-material/Male";
 import FemaleIcon from "@mui/icons-material/Female";
 
 // Import Types
-import { Patient } from "../../types";
+import { Patient } from "../../types/types";
 
 // Import Services
 import { getOne } from "../../services/patients";

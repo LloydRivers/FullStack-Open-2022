@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 
 // Import types
-import { PatientFormValues } from "../../types";
+import { PatientFormValues } from "../../types/types";
 
 // Import components
 import { AddPatientForm } from "../../components";

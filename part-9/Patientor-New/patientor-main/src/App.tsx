@@ -3,8 +3,8 @@ import axios from "axios";
 import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
 import { Button, Divider, Container, Typography } from "@mui/material";
 
-import { apiBaseUrl } from "./constants";
-import { Patient } from "./types";
+import { apiBaseUrl } from "./constants/constants";
+import { Patient } from "./types/types";
 
 import { getAll } from "./services/patients";
 import { PatientListPage, Details } from "./components";

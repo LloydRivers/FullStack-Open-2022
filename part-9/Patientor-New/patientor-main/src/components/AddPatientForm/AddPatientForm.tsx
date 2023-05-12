@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 
 // Import types
-import { PatientFormValues, Gender } from "../../types";
+import { PatientFormValues, Gender } from "../../types/types";
 
 interface Props {
   onCancel: () => void;

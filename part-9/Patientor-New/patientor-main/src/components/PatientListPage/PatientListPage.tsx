@@ -16,7 +16,7 @@ import {
 } from "@mui/material";
 
 // Import types
-import { PatientFormValues, Patient } from "../../types";
+import { PatientFormValues, Patient } from "../../types/types";
 
 // Import components
 import { AddPatientModal, HealthRatingBar } from "../../components";
