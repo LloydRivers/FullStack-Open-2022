@@ -6,9 +6,9 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import CardMedia from "@mui/material/CardMedia";
-import MaleIcon from "@mui/icons-material/Male";
-import FemaleIcon from "@mui/icons-material/Female";
 
+// Import Components
+import GenderIcon from "../Details/GenderIcon";
 // Import Custom Hook
 import { UsePatientDetails } from "../../utils/customHooks";
 
@@ -26,8 +26,8 @@ const Details = () => {
       />
       <CardContent>
         <div style={{ display: "flex", alignItems: "center" }}>
-          <Typography gutterBottom variant="h5" component="div">
-            {details?.gender === "male" ? <MaleIcon /> : <FemaleIcon />}
+          <Typography variant="body2" color="text.secondary">
+            <GenderIcon gender={details?.gender} />
           </Typography>
 
           <Typography gutterBottom variant="h5" component="div">
