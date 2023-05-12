@@ -1,5 +1,4 @@
 // Import dependencies
-import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 // Import Material UI
@@ -10,23 +9,13 @@ import CardMedia from "@mui/material/CardMedia";
 import MaleIcon from "@mui/icons-material/Male";
 import FemaleIcon from "@mui/icons-material/Female";
 
-// Import Types
-import { Patient } from "../../types/types";
-
-// Import Services
-import { getOne } from "../../services/patients";
+// Import Custom Hook
+import { UsePatientDetails } from "../../utils/customHooks";
 
 const Details = () => {
-  const [details, setDetails] = useState<Patient>();
   const { id = "" } = useParams<{ id: string }>();
+  const details = UsePatientDetails(id);
 
-  useEffect(() => {
-    const fetchDetails = async () => {
-      const data = await getOne(id);
-      setDetails(data);
-    };
-    fetchDetails();
-  }, []);
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardMedia
@@ -38,7 +27,7 @@ const Details = () => {
       <CardContent>
         <div style={{ display: "flex", alignItems: "center" }}>
           <Typography gutterBottom variant="h5" component="div">
-            {details?.gender === "male" ? <MaleIcon /> : <FemaleIcon />}{" "}
+            {details?.gender === "male" ? <MaleIcon /> : <FemaleIcon />}
           </Typography>
 
           <Typography gutterBottom variant="h5" component="div">
