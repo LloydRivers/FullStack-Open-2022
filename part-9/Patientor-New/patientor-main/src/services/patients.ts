@@ -20,3 +20,9 @@ export const create = async (object: PatientFormValues) => {
 
   return data;
 };
+
+export const getDiagnoses = async () => {
+  const { data } = await axios.get(`${apiBaseUrl}/diagnoses`);
+
+  return data;
+};

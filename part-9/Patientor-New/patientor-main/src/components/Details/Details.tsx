@@ -1,20 +1,31 @@
 // Import dependencies
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
-// Import Material UI
+// Import mui
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import CardMedia from "@mui/material/CardMedia";
+import { List, ListItem, ListItemText } from "@mui/material";
 
-// Import Components
+// Import custom hooks
+import { UsePatientDetails, useDiagnoses } from "../../utils/customHooks";
+
+// Import icon
 import GenderIcon from "../Details/GenderIcon";
-// Import Custom Hook
-import { UsePatientDetails } from "../../utils/customHooks";
+
+export interface Diagnose {
+  code: string;
+  name: string;
+  latin?: string;
+}
 
 const Details = () => {
   const { id = "" } = useParams<{ id: string }>();
   const details = UsePatientDetails(id);
+  const diagnoses = useDiagnoses();
+  console.log(diagnoses);
 
   return (
     <Card sx={{ maxWidth: 345 }}>
@@ -25,21 +36,53 @@ const Details = () => {
         alt="green iguana"
       />
       <CardContent>
-        <div style={{ display: "flex", alignItems: "center" }}>
-          <Typography variant="body2" color="text.secondary">
+        <Typography gutterBottom variant="h5" component="div">
+          <div style={{ display: "flex", alignItems: "center" }}>
             <GenderIcon gender={details?.gender} />
-          </Typography>
-
-          <Typography gutterBottom variant="h5" component="div">
-            {details?.name}
-          </Typography>
-        </div>
-        <Typography variant="body2" color="text.secondary">
-          {details?.ssn}
+            <span style={{ marginLeft: "0.5rem" }}>{details?.name}</span>
+          </div>
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          {details?.occupation}
+          ssn: {details?.ssn}
         </Typography>
+        <Typography variant="body2" color="text.secondary">
+          occupation: {details?.occupation}
+        </Typography>
+        <List sx={{ paddingLeft: 0 }}>
+          {details?.entries.map((entry) => (
+            <ListItem
+              style={{
+                paddingLeft: 0,
+              }}
+              key={entry.id}
+            >
+              <ListItemText
+                primary={entry.date}
+                secondary={
+                  <div>
+                    {entry.description}
+                    {entry.diagnosisCodes &&
+                      entry.diagnosisCodes.length > 0 && (
+                        <ul style={{ margin: 0, paddingLeft: "1.2rem" }}>
+                          {entry.diagnosisCodes.map((code) => {
+                            const diagnosis = diagnoses.find(
+                              (d) => d.code === code
+                            );
+                            const description = diagnosis
+                              ? diagnosis.name
+                              : "Unknown diagnosis";
+                            return (
+                              <li key={code}>{`${code} - ${description}`}</li>
+                            );
+                          })}
+                        </ul>
+                      )}
+                  </div>
+                }
+              />
+            </ListItem>
+          ))}
+        </List>
       </CardContent>
     </Card>
   );

@@ -1,4 +1,5 @@
 import patients from "../data/patients";
+
 import {
   Patient,
   NonSensitivePatient,

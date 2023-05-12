@@ -1,7 +1,7 @@
 import { Patient, Gender } from "../../types/Patientor/types";
 import { toNewPatientEntry } from "../utils/patientUtils";
 
-const data = [
+const patients: Patient[] = [
   {
     id: "d2773336-f723-11e9-8f0b-362b9e155667",
     name: "John McClane",
@@ -54,7 +54,7 @@ const data = [
     name: "Hans Gruber",
     dateOfBirth: "1970-04-25",
     ssn: "250470-555L",
-    gender: Gender.Male,
+    gender: Gender.Other,
     occupation: "Technician",
     entries: [],
   },
@@ -113,7 +113,7 @@ const data = [
   },
 ];
 // Create an array of Patient objects by mapping through an array of input objects
-const patientEntries: Patient[] = data.map((obj) => {
+const patientEntries: Patient[] = patients.map((obj) => {
   // Convert the current input object to a new Patient object using the toNewPatientEntry function
   const object = toNewPatientEntry(obj) as Patient;
   // Set the 'id' property of the new Patient object to the 'id' property of the current input object

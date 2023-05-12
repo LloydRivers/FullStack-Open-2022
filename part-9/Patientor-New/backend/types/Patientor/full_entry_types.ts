@@ -1,29 +1,3 @@
-export interface Diagnosis {
-  code: string;
-  name: string;
-  latin?: string;
-}
-
-export enum Gender {
-  Male = "male",
-  Female = "female",
-  Other = "other",
-}
-
-export interface Patient {
-  id: string;
-  name: string;
-  occupation: string;
-  gender: Gender;
-  ssn?: string;
-  dateOfBirth?: string;
-  entries: Entry[];
-}
-
-export type PatientFormValues = Omit<Patient, "id" | "entries">;
-
-/* You can use the same type definition for an Entry in the frontend. For these exercises, it is enough to just copy/paste the definitions from the backend to the frontend. */
-
 export interface Diagnose {
   code: string;
   name: string;
