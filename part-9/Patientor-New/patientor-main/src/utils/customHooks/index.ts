@@ -13,6 +13,7 @@ export const UsePatientDetails = (id: string) => {
   useEffect(() => {
     const fetchDetails = async () => {
       const data = await getOne(id);
+      console.log(data);
       setDetails(data);
     };
     fetchDetails();
@@ -28,7 +29,6 @@ export const useDiagnoses = () => {
     const fetchDiagnoses = async () => {
       try {
         const data = await getDiagnoses();
-        console.log(data);
         setDiagnoses(data);
       } catch (e) {
         console.error(e);

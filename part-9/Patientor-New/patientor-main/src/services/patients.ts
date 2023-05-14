@@ -1,6 +1,10 @@
+// Import dependencies
 import axios from "axios";
+
+// Import types
 import { Patient, PatientFormValues } from "../types/types";
 
+// Import constants
 import { apiBaseUrl } from "../constants/constants";
 
 export const getAll = async () => {

@@ -1,5 +1,4 @@
 // Import dependencies
-import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 // Import mui
@@ -11,6 +10,9 @@ import { List, ListItem, ListItemText } from "@mui/material";
 
 // Import custom hooks
 import { UsePatientDetails, useDiagnoses } from "../../utils/customHooks";
+
+// Import components
+import { EntryDetails } from "../../components";
 
 // Import icon
 import GenderIcon from "../Details/GenderIcon";
@@ -25,7 +27,6 @@ const Details = () => {
   const { id = "" } = useParams<{ id: string }>();
   const details = UsePatientDetails(id);
   const diagnoses = useDiagnoses();
-  console.log(diagnoses);
 
   return (
     <Card sx={{ maxWidth: 345 }}>
@@ -83,6 +84,13 @@ const Details = () => {
             </ListItem>
           ))}
         </List>
+        <div>
+          <h3>Entries:</h3>
+
+          {details?.entries.map((entry) => (
+            <EntryDetails key={entry.id} entry={entry} />
+          ))}
+        </div>
       </CardContent>
     </Card>
   );
