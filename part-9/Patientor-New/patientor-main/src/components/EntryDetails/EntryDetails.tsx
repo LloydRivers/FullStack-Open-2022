@@ -14,16 +14,16 @@ const EntryDetails = ({ entry }: EntryDetailsProps) => {
       `Unhandled discriminated union member: ${JSON.stringify(value)}`
     );
   };
+
   switch (entry.type) {
     case "HealthCheck":
       return <HealthCheck entry={entry} />;
     case "Hospital":
       return <HospitalStay entry={entry} />;
-
     case "OccupationalHealthcare":
       return <Occupational entry={entry} />;
     default:
-      assertNever(entry);
+      return assertNever(entry);
   }
 };
 
