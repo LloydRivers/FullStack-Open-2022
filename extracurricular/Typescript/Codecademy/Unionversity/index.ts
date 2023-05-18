@@ -5,6 +5,9 @@ import { Course, StudyGroup, SearchEventsOptions } from "./types";
 import courses from "./courses";
 import studyGroups from "./studyGroups";
 
+// Import helpers:
+import { enroll } from "./helpers";
+
 const searchEvents = (options: SearchEventsOptions) => {
   const events: (Course | StudyGroup)[] =
     options.query === "courses" ? courses : studyGroups;
@@ -17,13 +20,6 @@ const searchEvents = (options: SearchEventsOptions) => {
       return event.keywords.includes(options.query);
     }
   });
-};
-
-let enrolledEvents: (Course | StudyGroup)[] = [];
-const enroll = (event: Course | StudyGroup) => {
-  enrolledEvents.push(event);
-
-  return enrolledEvents;
 };
 
 const searchResults = searchEvents({
