@@ -23,13 +23,25 @@ patientRouter.post("/", (req, res) => {
   }
 });
 
-patientRouter.get("/:id", (_req, res) => {
-  const patient = getPatientByID(_req.params.id);
+patientRouter.get("/:id", (req, res) => {
+  const patient = getPatientByID(req.params.id);
   if (patient) {
     res.json(patient);
   } else {
     res.status(404).end();
   }
+});
+
+patientRouter.post("/:id/entries", (req, res) => {
+  /*
+  
+
+Remember that we have different kinds of entries in our app, so our backend should support all those types and check that at least all required fields are given for each type.
+
+In this exercise you quite likely need to remember this trick.
+
+You may assume that the diagnostic codes are sent in a correct form and use eg. the following kind of parser to extract those from the request body:
+  */
 });
 
 // Adding the steps I think I need to take. I am almost 100% blocked on this one so might need to go away, upskill and return to the course.
